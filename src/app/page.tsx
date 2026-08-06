@@ -64,6 +64,45 @@ const dashboardStats = [
   },
 ];
 
+const recentOrders = [
+  {
+    id: "1",
+    productName: "Silk Floral Scarf",
+    imageUrl: "/placeholder-product.png",
+    supplierName: "Handloom Collective",
+    orderDate: "Oct 24, 2023",
+    priority: "in_a_week",
+    status: "ordered",
+  },
+  {
+    id: "2",
+    productName: "Ceramic Mug Set",
+    imageUrl: "/placeholder-product.png",
+    supplierName: "Clay & Co.",
+    orderDate: "Oct 23, 2023",
+    priority: "custom",
+    status: "received",
+  },
+  {
+    id: "3",
+    productName: "Leather Tote Bag",
+    imageUrl: "/placeholder-product.png",
+    supplierName: "Heritage Leathers",
+    orderDate: "Oct 22, 2023",
+    priority: "today",
+    status: "pending",
+  },
+  {
+    id: "4",
+    productName: "Cotton Baby Set",
+    imageUrl: "/placeholder-product.png",
+    supplierName: "Tiny Threads",
+    orderDate: "Oct 22, 2023",
+    priority: "this_weekend",
+    status: "received",
+  },
+];
+
 export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -117,6 +156,66 @@ export default function DashboardPage() {
               </p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 rounded-xl border border-gray-200 bg-white">
+          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+            <h2 className="font-semibold text-gray-900">
+              Recent Orders{" "}
+              <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-normal text-gray-500">
+                Last 30 days
+              </span>
+            </h2>
+            <Link
+              href="/orders"
+              className="text-sm font-medium text-indigo-600 hover:text-indigo-700"
+            >
+              View All Orders
+            </Link>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-gray-100 text-xs uppercase text-gray-400">
+                  <th className="px-6 py-3 font-medium">Product Name</th>
+                  <th className="px-6 py-3 font-medium">Supplier</th>
+                  <th className="px-6 py-3 font-medium">Date</th>
+                  <th className="px-6 py-3 font-medium">Priority</th>
+                  <th className="px-6 py-3 font-medium">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentOrders.map((order) => (
+                  <tr key={order.id} className="border-b border-gray-50 last:border-0">
+                    <td className="flex items-center gap-3 px-6 py-3">
+                      <div className="h-9 w-9 rounded-md bg-gray-100" />
+                      <span className="font-medium text-gray-900">
+                        {order.productName}
+                      </span>
+                    </td>
+                    <td className="px-6 py-3 text-indigo-600">
+                      {order.supplierName}
+                    </td>
+                    <td className="px-6 py-3 text-gray-500">{order.orderDate}</td>
+                    <td className="px-6 py-3">
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${priorityStyles[order.priority]}`}
+                      >
+                        {priorityLabel[order.priority]}
+                      </span>
+                    </td>
+                    <td className="px-6 py-3">
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-xs font-medium capitalize ${statusStyles[order.status]}`}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </main>
 
