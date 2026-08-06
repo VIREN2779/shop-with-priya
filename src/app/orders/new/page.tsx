@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Upload } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function NewOrderPage() {
+    const router = useRouter();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [productName, setProductName] = useState("");
+    const [supplierName, setSupplierName] = useState("");
+    const [orderDate, setOrderDate] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -56,6 +61,48 @@ export default function NewOrderPage() {
                                     className="hidden"
                                 />
                             </label>
+                        </div>
+
+                        {/* Fields */}
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-sm font-medium text-gray-700">
+                                    Product Name
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={productName}
+                                    onChange={(e) => setProductName(e.target.value)}
+                                    placeholder="e.g. Organic Cotton T-Shirt"
+                                    className="mt-1 w-full rounded-lg text-gray-700 border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-sm font-medium text-gray-700">
+                                    Supplier
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={supplierName}
+                                    onChange={(e) => setSupplierName(e.target.value)}
+                                    placeholder="Supplier name"
+                                    className="mt-1 w-full rounded-lg text-gray-700 border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-sm font-medium text-gray-700">
+                                    Order Date
+                                </label>
+                                <input
+                                    type="date"
+                                    required
+                                    value={orderDate}
+                                    onChange={(e) => setOrderDate(e.target.value)}
+                                    className="mt-1 w-full rounded-lg text-gray-700 border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                />
+                            </div>
                         </div>
                     </div>
 
