@@ -7,18 +7,44 @@ import { Upload } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+const priorityOptions = [
+    { value: "today", label: "Today", dot: "bg-red-500" },
+    { value: "this_weekend", label: "This Weekend", dot: "bg-orange-500" },
+    { value: "in_2_days", label: "In 2 Days", dot: "bg-amber-500" },
+    { value: "in_a_week", label: "In a Week", dot: "bg-blue-500" },
+];
+
+const statusOptions = [
+    { value: "pending", label: "Pending Confirmation" },
+    { value: "processing", label: "Processing" },
+    { value: "shipped", label: "Shipped" },
+    { value: "delivered", label: "Delivered" },
+];
+
 export default function NewOrderPage() {
     const router = useRouter();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [productName, setProductName] = useState("");
     const [supplierName, setSupplierName] = useState("");
     const [orderDate, setOrderDate] = useState("");
+    const [priority, setPriority] = useState("in_a_week");
+    const [status, setStatus] = useState("pending");
     const [submitting, setSubmitting] = useState(false);
 
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
         if (!file) return;
         setImagePreview(URL.createObjectURL(file));
+    }
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        setSubmitting(true);
+
+        console.log({ productName, supplierName, orderDate, priority, status });
+        
+        setSubmitting(false);
+        router.push("/orders");
     }
 
     return (
@@ -30,7 +56,10 @@ export default function NewOrderPage() {
                     Fill in the details below to register a new supplier order.
                 </p>
 
-                <form className="mt-6 rounded-xl border border-gray-200 bg-white p-6">
+                <form
+                    onSubmit={handleSubmit}
+                    className="mt-6 rounded-xl border border-gray-200 bg-white p-6"
+                >
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                         <div>
                             <label className="text-sm font-semibold text-gray-900">
@@ -103,6 +132,52 @@ export default function NewOrderPage() {
                                     className="mt-1 w-full rounded-lg text-gray-700 border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                                 />
                             </div>
+                        </div>
+                    </div>
+
+                    <hr className="my-6 border-gray-100" />
+
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        <div>
+                            <label className="text-sm font-semibold text-gray-900">
+                                Order Priority
+                            </label>
+                            <div className="mt-3 grid grid-cols-2 gap-2">
+                                {priorityOptions.map((option) => (
+                                    <button
+                                        type="button"
+                                        key={option.value}
+                                        onClick={() => setPriority(option.value)}
+                                        className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${priority === option.value
+                                            ? "border-indigo-400 bg-indigo-50 text-indigo-700"
+                                            : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                                            }`}
+                                    >
+                                        <span className={`h-2 w-2 rounded-full ${option.dot}`} />
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold text-gray-900">
+                                Initial Status
+                            </label>
+                            <select
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                                className="mt-3 w-full rounded-lg text-gray-700 border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                            >
+                                {statusOptions.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                            <p className="mt-2 text-xs text-gray-400">
+                                Status can be updated from the Order Dashboard later.
+                            </p>
                         </div>
                     </div>
 
