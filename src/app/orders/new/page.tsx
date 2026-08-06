@@ -41,8 +41,11 @@ export default function NewOrderPage() {
         e.preventDefault();
         setSubmitting(true);
 
+        // In future
+        // POST /api/orders (and upload image to Cloudinary first)
+
         console.log({ productName, supplierName, orderDate, priority, status });
-        
+
         setSubmitting(false);
         router.push("/orders");
     }
